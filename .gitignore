@@ -1,4 +1,5 @@
 # Airflow
+airflow/config/
 airflow/logs/
 airflow/tmp/
 airflow/.env
