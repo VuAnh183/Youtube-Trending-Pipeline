@@ -1,5 +1,10 @@
+# Airflow
+airflow/logs/
+airflow/tmp/
+airflow/.env
+
+# Root
 data/
-config.py
 venv/
 __pycache__/
 .env
