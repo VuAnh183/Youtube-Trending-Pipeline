@@ -6,12 +6,13 @@ def etl():
 
     @task
     def extract():
-        ingestion.fetch_trending_videos(10)
+        data = ingestion.fetch_trending_videos(10)
+        ingestion.save_to_json(data)
     
     @task
     def transform():
         data = transformation.transform_raw_data()
-        transformation.save_as_parquets(data)
+        transformation.save_as_parquet(data)
 
     @task
     def load_in_SQLite():
