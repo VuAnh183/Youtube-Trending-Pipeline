@@ -61,6 +61,8 @@ def transform_raw_data():
 def save_as_parquets(df: pd.DataFrame):
     file_path_save.parent.mkdir(parents=True, exist_ok=True)
 
+    if file_path_save.exists():
+        print(f"File existed! Overwriting existing file: {file_path_save}")
     df.to_parquet(file_path_save, engine="pyarrow")
 
 
