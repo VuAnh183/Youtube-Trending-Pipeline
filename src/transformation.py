@@ -3,6 +3,7 @@ import json
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+import logging
 
 
 load_dotenv()
@@ -13,15 +14,14 @@ file_path_load = RAW_DIR / "test.json"
 file_path_save = PROCESSED_DIR / "test.parquet"
 
 
-def transform_raw_data():
+def transform_raw_data() -> pd.DataFrame:
 
-    if file_path_load.exists():
+    try:
         with open(file_path_load, 'r') as file:
             data = json.load(file)
-    else: 
-        return f"File does not exist: {file_path_load}"
-
-
+    except Exception as e:
+        logging.error(f"Load raw data failed: {file_path_load}")
+        raise RuntimeError(f"Transformation failed: {e}") from e
 
     filtered_df = pd.json_normalize(data['items'])
 
@@ -58,18 +58,27 @@ def transform_raw_data():
 
     return clean_df
 
-def save_as_parquets(df: pd.DataFrame):
-    file_path_save.parent.mkdir(parents=True, exist_ok=True)
+def save_as_parquet(df: pd.DataFrame) -> Path:
+    
+    try:    
+        file_path_save.parent.mkdir(parents=True, exist_ok=True)
 
-    if file_path_save.exists():
-        print(f"File existed! Overwriting existing file: {file_path_save}")
-    df.to_parquet(file_path_save, engine="pyarrow")
+        if file_path_save.exists():
+            print(f"File existed! Overwriting existing file: {file_path_save}")
+        df.to_parquet(file_path_save, engine="pyarrow")
+
+        logging.info(f"Data extracted to {file_path_save}")
+        return file_path_save
+    
+    except Exception as e:
+        logging.error(f"Save as parquet failed {file_path_save}")
+        raise RuntimeError(f"Transformation failed: {e}") from e
 
 
-if __name__ == '__main__':
-    data = transform_raw_data()
+# if __name__ == '__main__':
+#     data = transform_raw_data()
 
-    save_as_parquets(data)
+#     save_as_parquet(data)
     
 
 
