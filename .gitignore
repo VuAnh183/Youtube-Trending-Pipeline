@@ -2,7 +2,7 @@
 airflow/config/
 airflow/logs/
 airflow/tmp/
-airflow/.env
+airflow/.airflow.env
 
 # Root
 data/
