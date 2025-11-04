@@ -6,7 +6,7 @@ from pathlib import Path
 import logging
 
 
-load_dotenv()
+load_dotenv(override=False)
 RAW_DIR = Path(os.getenv("RAW_DATA_DIR")) 
 PROCESSED_DIR = Path(os.getenv("PROCESSED_DATA_DIR"))
 

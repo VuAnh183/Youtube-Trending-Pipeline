@@ -5,7 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import logging
 
-load_dotenv()
+load_dotenv(override=False)
 DB_FILE = Path(os.getenv("DB_FILE"))
 PROCESSED_DIR = Path(os.getenv("PROCESSED_DATA_DIR"))
 

@@ -3,10 +3,9 @@ import requests
 import json
 from dotenv import load_dotenv
 from pathlib import Path
-# from googleapiclient.discovery import build
 import logging
 
-load_dotenv()
+load_dotenv(override=False)
 API_KEY = os.getenv("API_KEY")
 REGION = os.getenv("REGIONS")
 RAW_DIR = Path(os.getenv("RAW_DATA_DIR")) 
