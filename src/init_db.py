@@ -5,18 +5,14 @@ import os
 
 
 load_dotenv(override=False)
-POSTGRES_USER = os.getenv("POSTGRES_USER")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
-POSTGRES_DB_NAME = os.getenv("POSTGRES_DB_NAME")
-POSTGRES_PORT = os.getenv("POSTGRES_PORT")
-POSTGRES_HOST = os.getenv("POSTGRES_HOST")
+POSTGRES_TABLE = os.getenv("POSTGRES_TABLE")
 
 def init_postgres_table():
     # connection string: postgresql+psycopg2://user:password@host:port/dbname
-    engine = create_engine(f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:5432/{POSTGRES_DB_NAME}")
+    engine = create_engine("postgresql+psycopg2://airflow:airflow@postgres:5432/airflow")
 
-    create_table_query = """
-    CREATE TABLE IF NOT EXISTS trending_videos(
+    create_table_query = f"""
+    CREATE TABLE IF NOT EXISTS {POSTGRES_TABLE}(
         video_id TEXT PRIMARY KEY,
         publish_at TIMESTAMP,
         channel_id TEXT,
@@ -31,4 +27,4 @@ def init_postgres_table():
 
     with engine.begin() as conn:
         conn.execute(text(create_table_query))
-        logging.info("Table 'trending_videos' is ready!")
+        logging.info(f"Table {POSTGRES_TABLE} is ready!")

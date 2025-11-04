@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import logging
 
 load_dotenv(override=False)
+POSTGRES_TABLE = os.getenv("POSTGRES_TABLE")
 DB_FILE = Path(os.getenv("DB_FILE"))
 PROCESSED_DIR = Path(os.getenv("PROCESSED_DATA_DIR"))
 
@@ -37,7 +38,7 @@ def save_to_SQLite(df: pd.DataFrame):
         )
 
     except Exception as e:
-        logging.error(f"Save to parquet failed:  {e}")
+        logging.error(f"Save to SQLite failed:  {e}")
         raise RuntimeError(f"Loading failed: {e}") from e 
 
 def SQLite_check():
@@ -52,6 +53,19 @@ def SQLite_check():
         raise RuntimeError(f"Health check failed: {e}") from e
 
 
+def save_to_Postgres(df: pd.DataFrame):
+    try:
+        engine = create_engine("postgresql+psycopg2://airflow:airflow@postgres:5432/airflow")
+
+        df.to_sql(f"{POSTGRES_TABLE}", engine, if_exists="replace", index=False)
+        logging.info("Save to Postgres success!")
+
+
+    except Exception as e:
+        logging.error(f"Save to Postgres failed: {e}")
+        raise RuntimeError(f"Loading failed: {e}") from e
+
+ 
 # if __name__ == "__main__":
 #     data = get_parquet_data()
 

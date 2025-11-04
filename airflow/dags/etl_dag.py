@@ -12,7 +12,7 @@ def etl():
             max_retry_delay=timedelta(seconds=30)
     )
     def extract():
-        data = ingestion.fetch_trending_videos(10)
+        data = ingestion.fetch_trending_videos(20)
         ingestion.save_to_json(data)
     
 
@@ -27,16 +27,6 @@ def etl():
         data = transformation.transform_raw_data()
         transformation.save_as_parquet(data)
 
-    @task(
-            retries=3,                              
-            retry_delay=timedelta(seconds=10),       
-            retry_exponential_backoff=True,        
-            max_retry_delay=timedelta(seconds=30)
-    )
-    def load_in_SQLite():
-        data = load.get_parquet_data()
-
-        load.save_to_SQLite(data)
 
     @task(
             retries=3,                              
@@ -44,11 +34,14 @@ def etl():
             retry_exponential_backoff=True,        
             max_retry_delay=timedelta(seconds=15)
     )
-    def data_check():
-        load.SQLite_check()
+    def load_to_Postgres():
+        data = load.get_parquet_data()
+
+        load.save_to_Postgres(data)
 
 
-    extract() >> transform() >> load_in_SQLite() >> data_check()
+
+    extract() >> transform() >> load_to_Postgres()
 
 
 etl()

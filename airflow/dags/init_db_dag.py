@@ -1,12 +1,12 @@
 from airflow.sdk import dag, task
-from src.init_db import init_postgres_table
+from src import init_db
 
 @dag
 def database():
     
     @task()
     def init_postgres():
-        init_postgres_table()
+        init_db.init_postgres_table()
 
     init_postgres()
 
