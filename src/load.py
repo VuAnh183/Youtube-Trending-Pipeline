@@ -55,7 +55,7 @@ def SQLite_check():
 
 def save_to_Postgres(df: pd.DataFrame):
     try:
-        engine = create_engine("postgresql+psycopg2://admin:admin@postgres:5432/airflow")
+        engine = create_engine("postgresql+psycopg2://airflow:airflow@postgres:5432/airflow")
 
         df.to_sql(f"{POSTGRES_TABLE}", engine, if_exists="replace", index=False)
         logging.info("Save to Postgres success!")

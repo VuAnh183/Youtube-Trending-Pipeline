@@ -9,7 +9,7 @@ POSTGRES_TABLE = os.getenv("POSTGRES_TABLE")
 
 def init_postgres_table():
     # connection string: postgresql+psycopg2://user:password@host:port/dbname
-    engine = create_engine("postgresql+psycopg2://admin:admin@postgres:5432/airflow")
+    engine = create_engine("postgresql+psycopg2://airflow:airflow@postgres:5432/airflow")
 
     create_table_query = f"""
     CREATE TABLE IF NOT EXISTS {POSTGRES_TABLE}(
