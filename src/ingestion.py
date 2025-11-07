@@ -53,6 +53,7 @@ def save_to_json(data: dict) -> Path:
         raise RuntimeError(f"Extraction failed: {e}") from e
 
 
-# if __name__ == "__main__":
-#     data = fetch_trending_videos(3)
-#     save_to_json(data)
+if __name__ == "__main__":
+    data = fetch_trending_videos(50)
+    # print(data)
+    save_to_json(data)
