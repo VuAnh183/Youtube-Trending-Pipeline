@@ -15,11 +15,8 @@ restart:
 	$(DC) down -v
 	$(DC) up -d
 
-stop:
-	$(DC) stop
-
-start:
-	$(DC) start
+postgres:
+	docker exec -it airflow-postgres-1 psql -U airflow
 
 
 
