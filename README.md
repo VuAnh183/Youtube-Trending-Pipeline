@@ -2,4 +2,4 @@
 
 ### A pipeline to fetch daily trending YouTube videos, clean & store the data, and visualize trends
 
-***Updating...***
+![Alt text](System_Architect.png)
